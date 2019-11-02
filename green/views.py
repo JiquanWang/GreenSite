@@ -33,3 +33,8 @@ def login(request):
         'user': None,
     }
     return render(request, 'green/login.html', content)
+
+
+# 登出
+def logout(request):
+    return render(request, 'green/login.html')
