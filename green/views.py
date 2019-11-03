@@ -12,11 +12,15 @@ def begin(request):
 
 # 主页
 def index(request):
+    # if not request.user.is_authenticated:
+    #     return render(request, 'green/login.html')
     return render(request, 'green/index.html')
 
 
 # 登录
 def login(request):
+    # if request.user.is_authenticated():
+    #     return HttpResponseRedirect(reverse('index'))
     state = None
     if request.method == 'POST':
         username = request.POST.get('Username', '')
@@ -26,7 +30,7 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect('index')
         else:
-            state ='not_exist_or_password_error'
+            state = 'not_exist_or_password_error'
     content = {
         'active_menu': 'homepage',
         'state': state,
@@ -37,4 +41,5 @@ def login(request):
 
 # 登出
 def logout(request):
+    auth.logout(request)
     return render(request, 'green/login.html')
