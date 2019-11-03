@@ -35,6 +35,7 @@ def login(request):
     return render(request, 'green/login.html', content)
 
 
+# 注册
 def register(request):
     if request.method == 'GET':
         return render(request, 'green/register.html')
@@ -44,7 +45,6 @@ def register(request):
         email = request.POST.get('email')
         User.objects.create_user(username=username, password=password, email=email)
         return render(request, 'green/login.html')
-
 
 
 # 登出
