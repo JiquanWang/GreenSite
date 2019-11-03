@@ -5,30 +5,26 @@ from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 
 
-# 起始
-def begin(request):
-    return render(request, 'green/login.html')
-
-
 # 主页
 def index(request):
-    # if not request.user.is_authenticated:
-    #     return render(request, 'green/login.html')
-    return render(request, 'green/index.html')
+    if request.user.is_authenticated:
+        return render(request, 'green/index.html')
+    return render(request, 'green/login.html')
 
 
 # 登录
 def login(request):
-    # if request.user.is_authenticated():
-    #     return HttpResponseRedirect(reverse('index'))
+    if request.user.is_authenticated:
+        return render(request, 'green/index.html')
     state = None
     if request.method == 'POST':
-        username = request.POST.get('Username', '')
-        password = request.POST.get('Password', '')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return HttpResponseRedirect('index')
+            return HttpResponseRedirect(reverse('green:index'))
         else:
             state = 'not_exist_or_password_error'
     content = {
@@ -37,6 +33,18 @@ def login(request):
         'user': None,
     }
     return render(request, 'green/login.html', content)
+
+
+def register(request):
+    if request.method == 'GET':
+        return render(request, 'green/register.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        User.objects.create_user(username=username, password=password, email=email)
+        return render(request, 'green/login.html')
+
 
 
 # 登出
