@@ -16,6 +16,8 @@ def index(request):
 def login(request):
     if request.user.is_authenticated:
         return render(request, 'green/index.html')
+    if request.method == 'GET':
+        return render(request, 'green/login.html')
     state = None
     if request.method == 'POST':
         username = request.POST.get('username')

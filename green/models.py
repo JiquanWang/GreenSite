@@ -35,17 +35,6 @@ class DataRecord(models.Model):
         db_table = 'data_record'
 
 
-class FlowerShelf(models.Model):
-    name = models.CharField(max_length=32, blank=True, null=True)
-    room_id = models.IntegerField(blank=True, null=True)
-    status = models.IntegerField(blank=True, null=True)
-    created_time = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'flower_shelf'
-
-
 class NewDevice(models.Model):
     host = models.CharField(max_length=32, blank=True, null=True)
     mac = models.CharField(max_length=12, blank=True, null=True)
@@ -112,37 +101,6 @@ class QuanXian(models.Model):
         db_table = 'quan_xian'
 
 
-class RelayInfo(models.Model):
-    relay_num = models.CharField(max_length=32, blank=True, null=True)
-    relay_name = models.CharField(max_length=32, blank=True, null=True)
-    device_mac = models.CharField(max_length=32, blank=True, null=True)
-    belongto_type = models.IntegerField(blank=True, null=True)
-    belongto_id = models.IntegerField(blank=True, null=True)
-    is_online = models.IntegerField(blank=True, null=True)
-    status = models.FloatField(blank=True, null=True)
-    refresh_time = models.IntegerField(blank=True, null=True)
-    created_time = models.IntegerField(blank=True, null=True)
-    device_type = models.IntegerField(blank=True, null=True)
-    relay_type_id = models.CharField(max_length=32, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'relay_info'
-
-
-class RoomInfo(models.Model):
-    room_num = models.CharField(max_length=16, blank=True, null=True)
-    room_name = models.CharField(max_length=16, blank=True, null=True)
-    city = models.CharField(max_length=32, blank=True, null=True)
-    area = models.CharField(max_length=32, blank=True, null=True)
-    status = models.IntegerField(blank=True, null=True)
-    created_time = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'room_info'
-
-
 class Rules(models.Model):
     name = models.CharField(max_length=16)
     content = models.TextField()
@@ -153,30 +111,6 @@ class Rules(models.Model):
     class Meta:
         managed = False
         db_table = 'rules'
-
-
-class SensorInfo(models.Model):
-    sensor_num = models.CharField(max_length=32, blank=True, null=True)
-    device_mac = models.CharField(max_length=32, blank=True, null=True)
-    device_index = models.IntegerField(blank=True, null=True)
-    sensor_type_id = models.IntegerField(blank=True, null=True)
-    belongto_type = models.IntegerField(blank=True, null=True)
-    belongto_id = models.IntegerField(blank=True, null=True)
-    status = models.IntegerField(blank=True, null=True)
-    created_time = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sensor_info'
-
-
-class SensorType(models.Model):
-    sensor_type = models.CharField(max_length=16, blank=True, null=True)
-    sensor_type_unit = models.CharField(max_length=8, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sensor_type'
 
 
 class SystemDict(models.Model):

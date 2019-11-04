@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'green.apps.GreenConfig',
+    'rooms.apps.RoomsConfig',
+    'shelves.apps.ShelvesConfig',
+    'relays.apps.RelaysConfig',
+    'sensors.apps.SensorsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
