@@ -3,12 +3,17 @@ from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
+import datetime
 
 
 # 主页
 def index(request):
     if request.user.is_authenticated:
-        return render(request, 'green/index.html')
+        content = {
+            'active_main_menu': 'Home',
+            'active_submenu': None,
+        }
+        return render(request, 'green/index.html', content)
     return render(request, 'green/login.html')
 
 
@@ -30,7 +35,6 @@ def login(request):
         else:
             state = 'not_exist_or_password_error'
     content = {
-        'active_menu': 'homepage',
         'state': state,
         'user': None,
     }
@@ -53,3 +57,17 @@ def register(request):
 def logout(request):
     auth.logout(request)
     return render(request, 'green/login.html')
+
+
+# 个人信息
+def userinfo(request):
+    if request.user.is_authenticated:
+        content = {
+            'active_main_menu': '系统设置',
+            'active_submenu': '个人信息',
+        }
+        print(request.user.date_joined)
+        print(type(request.user.date_joined))
+        return render(request, 'green/userinfo.html', content)
+    else:
+        raise Http404("Please sign in!")

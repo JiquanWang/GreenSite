@@ -3952,7 +3952,7 @@
     }
 
     if (unit == "char") moveOnce();
-    else if (unit == "base_site.html") moveOnce(true);
+    else if (unit == "column") moveOnce(true);
     else if (unit == "word" || unit == "group") {
       var sawType = null, group = unit == "group";
       var helper = doc.cm && doc.cm.getHelper(pos, "wordChars");
@@ -4781,8 +4781,8 @@
     goPageDown: function(cm) {cm.moveV(1, "page");},
     goCharLeft: function(cm) {cm.moveH(-1, "char");},
     goCharRight: function(cm) {cm.moveH(1, "char");},
-    goColumnLeft: function(cm) {cm.moveH(-1, "base_site.html");},
-    goColumnRight: function(cm) {cm.moveH(1, "base_site.html");},
+    goColumnLeft: function(cm) {cm.moveH(-1, "column");},
+    goColumnRight: function(cm) {cm.moveH(1, "column");},
     goWordLeft: function(cm) {cm.moveH(-1, "word");},
     goGroupRight: function(cm) {cm.moveH(1, "group");},
     goGroupLeft: function(cm) {cm.moveH(-1, "group");},

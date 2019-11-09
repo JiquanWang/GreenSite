@@ -301,7 +301,7 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
       if (state.lexical.type == "stat") indent = state.lexical.indented;
       else for (var outer = state.lexical; outer && outer.type == ")" && outer.align; outer = outer.prev)
         indent = outer.indented;
-      state.lexical = new JSLexical(indent, cx.stream.base_site(), type, null, state.lexical, info);
+      state.lexical = new JSLexical(indent, cx.stream.column(), type, null, state.lexical, info);
     };
     result.lex = true;
     return result;
