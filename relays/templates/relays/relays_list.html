@@ -115,7 +115,7 @@
 
                 <li>
                     <a href="login.html">
-                        <i class="fa fa-sign-out"></i> Log out
+                        <i class="fa fa-sign-out"></i> 退出
                     </a>
                 </li>
             </ul>
@@ -124,16 +124,16 @@
         </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>FooTable</h2>
+                    <h2>{{ active_submenu }}</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.html">主页</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a>Tables</a>
+                            <a>{{ active_main_menu }}</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            <strong>FooTable</strong>
+                            <strong>{{ active_submenu }}</strong>
                         </li>
                     </ol>
                 </div>

@@ -124,19 +124,17 @@
         </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>主页</h2>
+                    <h2>{{ active_submenu }}</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{% url 'green:index' %}">主页</a>
                         </li>
-                        {% if active_submenu %}
-                            <li class="breadcrumb-item">
-                                <a>{{ active_main_menu }}</a>
-                            </li>
-                            <li class="breadcrumb-item active">
-                                <strong>{{ active_submenu }}</strong>
-                            </li>
-                        {% endif %}
+                        <li class="breadcrumb-item">
+                            <a>{{ active_main_menu }}</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <strong>{{ active_submenu }}</strong>
+                        </li>
                     </ol>
                 </div>
                 <div class="col-lg-2">
@@ -144,9 +142,59 @@
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>{{ active_main_menu }} <small>{{ active_submenu }}</small></h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form method="post" class="m-t" role="form" action="{% url 'shelves:add_new_shelf' %}">
+                                {% csrf_token %}
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label">花架名称</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="name"></div>
+                                </div>
 
-                    {#主页内容#}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">所属温室</label>
 
+                                    <div class="col-sm-10"><select class="form-control m-b" required name="room_id">
+                                        {% for room in rooms %}
+                                            <option value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white btn-sm" type="submit">取消</button>
+                                        <button class="btn btn-primary btn-sm" type="submit">添加</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="footer">
             <div class="pull-right">
@@ -161,104 +209,5 @@
 {% endblock %}
 
 {% block script %}
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-                toastr.success('Responsive Admin Theme', 'Welcome to INSPINIA');
 
-            }, 1300);
-
-
-            var data1 = [
-                [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
-            ];
-            var data2 = [
-                [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
-            ];
-            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-                data1, data2
-            ],
-                    {
-                        series: {
-                            lines: {
-                                show: false,
-                                fill: true
-                            },
-                            splines: {
-                                show: true,
-                                tension: 0.4,
-                                lineWidth: 1,
-                                fill: 0.4
-                            },
-                            points: {
-                                radius: 0,
-                                show: true
-                            },
-                            shadowSize: 2
-                        },
-                        grid: {
-                            hoverable: true,
-                            clickable: true,
-                            tickColor: "#d5d5d5",
-                            borderWidth: 1,
-                            color: '#d5d5d5'
-                        },
-                        colors: ["#1ab394", "#1C84C6"],
-                        xaxis:{
-                        },
-                        yaxis: {
-                            ticks: 4
-                        },
-                        tooltip: false
-                    }
-            );
-
-            var doughnutData = {
-                labels: ["App","Software","Laptop" ],
-                datasets: [{
-                    data: [300,50,100],
-                    backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-                }]
-            } ;
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-            new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-            var doughnutData = {
-                labels: ["App","Software","Laptop" ],
-                datasets: [{
-                    data: [70,27,85],
-                    backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-                }]
-            } ;
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
-            new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-        });
-    </script>
 {% endblock %}

@@ -57,7 +57,7 @@
                         <a href="#"><i class="fa fa-home"></i> <span class="nav-label">温室</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li id="温室列表"><a href="{% url 'rooms:get_rooms_list' %}">温室列表</a></li>
-                            <li id="添加新温室"><a href="dashboard_2.html">添加新温室</a></li>
+                            <li id="添加新温室"><a href="{% url 'rooms:add_new_room' %}">添加新温室</a></li>
                             <li id="新设备发现"><a href="dashboard_3.html">新设备发现</a></li>
                             <li id="温室最新概况"><a href="dashboard_4_1.html">温室最新概况</a></li>
                             <li id="全局温室预览"><a href="dashboard_5.html">全局温室预览<span class="label label-primary pull-right"></span></a></li>
@@ -67,7 +67,7 @@
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">花架</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="花架列表"><a href="{% url 'shelves:get_shelves_list' %}">花架列表</a></li>
-                            <li id="添加新花架"><a href="graph_morris.html">添加新花架</a></li>
+                            <li id="添加新花架"><a href="{% url 'shelves:add_new_shelf' %}">添加新花架</a></li>
                         </ul>
                     </li>
                     <li id="传感器">
