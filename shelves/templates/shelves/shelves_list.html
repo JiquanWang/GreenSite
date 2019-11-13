@@ -185,7 +185,11 @@
                     <tr>
                         <td>{{ shelf.id }}</td>
                         <td>{{ shelf.name }}</td>
-                        <td>{{ shelf.belongto_room.city }}{{ shelf.belongto_room.area }}-{{ shelf.belongto_room.room_name }}</td>
+                        <td>
+                            {% with shelf.belongto_room as room %}
+                                {{ room.city }}{{ room.area }}-{{ room.room_name }}
+                            {% endwith %}
+                        </td>
                         <td>{{ shelf.created_datatime }}</td>
                         <td class="center">{{ shelf.sensors_count }}</td>
                         <td class="center">{{ shelf.relays_count }}</td>
@@ -202,8 +206,8 @@
             </div>
         </div>
         <div class="footer">
-            <div class="float-right">
-                10GB of <strong>250GB</strong> Free.
+            <div class="pull-right">
+                智能植物工厂管理系统
             </div>
             <div>
                 <strong>Copyright</strong> 浙江大学城市学院 杭州市物联网技术与应用重点实验室 &copy; 2019

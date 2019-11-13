@@ -114,7 +114,7 @@
 
 
                 <li>
-                    <a href="{% url 'green:logout' %}">
+                    <a href="login.html">
                         <i class="fa fa-sign-out"></i> Log out
                     </a>
                 </li>
@@ -124,29 +124,108 @@
         </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Home</h2>
+                    <h2>FooTable</h2>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="{% url 'green:index' %}">Home</a>
+                            <a href="index.html">Home</a>
                         </li>
-                        {% if active_submenu %}
-                            <li class="breadcrumb-item">
-                                <a>{{ active_main_menu }}</a>
-                            </li>
-                            <li class="breadcrumb-item active">
-                                <strong>{{ active_submenu }}</strong>
-                            </li>
-                        {% endif %}
+                        <li class="breadcrumb-item">
+                            <a>Tables</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <strong>FooTable</strong>
+                        </li>
                     </ol>
-                </div>
-                <div class="col-lg-2">
-
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
 
-                    {#主页内容#}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>{{ active_submenu }}</h5>
 
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <input type="text" class="form-control form-control-sm m-b-xs" id="filter"
+                                   placeholder="Search in table">
+                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="20" data-filter=#filter>
+                                <thead>
+                                <tr>
+                                    <th data-toggle="true">传感器编号</th>
+                                    <th>传感器类型</th>
+                                    <th>所属</th>
+                                    <th data-hide="all">添加时间</th>
+                                    <th data-hide="all">最新数据</th>
+                                    <th data-hide="all">操作</th>
+                                    <th>是否在线</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for sensor in sensors_list %}
+                                    <tr>
+                                    <td>{{ sensor.sensor_num }}</td>
+                                    {% with sensor.sensor_type as sensor_type %}
+                                    <td>
+                                            {{ sensor_type.sensor_type }}/{{ sensor_type.sensor_type_unit }}
+                                    </td>
+                                    <td>
+                                        {% if sensor.belongto_type == 1 %}
+                                            {% with sensor.belong_to_shelf_or_room as shelf %}
+                                                {% with shelf.belongto_room as room %}
+                                                    {{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}
+                                                {% endwith %}
+                                            {% endwith %}
+                                        {% else %}
+                                            {% with sensor.belong_to_shelf_or_room as room %}
+                                                {{ room.city }}{{ room.area }}-{{ room.room_name }}
+                                            {% endwith %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ sensor.created_datetime }}</td>
+                                    <td>{{ sensor.get_last_data.sensor_value }}{{ sensor_type.sensor_type_unit }}</td>
+                                    {% endwith %}
+                                    <td>修改|删除</td>
+                                    <td><a href="#">{% if sensor.status == 1 %}
+                                        <i class="fa fa-check text-navy"></i>
+                                        {% else %}
+                                        <i class="fa fa-times text-danger"></i>
+                                    {% endif %}</a></td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination float-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="footer">
             <div class="pull-right">
@@ -157,108 +236,16 @@
             </div>
         </div>
 
-        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
     <script>
         $(document).ready(function() {
-            setTimeout(function() {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-                toastr.success('Responsive Admin Theme', 'Welcome to INSPINIA');
 
-            }, 1300);
-
-
-            var data1 = [
-                [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
-            ];
-            var data2 = [
-                [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
-            ];
-            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-                data1, data2
-            ],
-                    {
-                        series: {
-                            lines: {
-                                show: false,
-                                fill: true
-                            },
-                            splines: {
-                                show: true,
-                                tension: 0.4,
-                                lineWidth: 1,
-                                fill: 0.4
-                            },
-                            points: {
-                                radius: 0,
-                                show: true
-                            },
-                            shadowSize: 2
-                        },
-                        grid: {
-                            hoverable: true,
-                            clickable: true,
-                            tickColor: "#d5d5d5",
-                            borderWidth: 1,
-                            color: '#d5d5d5'
-                        },
-                        colors: ["#1ab394", "#1C84C6"],
-                        xaxis:{
-                        },
-                        yaxis: {
-                            ticks: 4
-                        },
-                        tooltip: false
-                    }
-            );
-
-            var doughnutData = {
-                labels: ["App","Software","Laptop" ],
-                datasets: [{
-                    data: [300,50,100],
-                    backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-                }]
-            } ;
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-            new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-            var doughnutData = {
-                labels: ["App","Software","Laptop" ],
-                datasets: [{
-                    data: [70,27,85],
-                    backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-                }]
-            } ;
-
-
-            var doughnutOptions = {
-                responsive: false,
-                legend: {
-                    display: false
-                }
-            };
-
-
-            var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
-            new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+            $('.footable').footable();
 
         });
+
     </script>
 {% endblock %}

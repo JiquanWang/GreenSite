@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
-from .models import RoomInfo
+from green.models import RoomInfo
 import datetime
 # Create your views here.
 

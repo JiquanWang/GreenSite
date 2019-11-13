@@ -27,7 +27,6 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
@@ -66,8 +65,6 @@ def userinfo(request):
             'active_main_menu': '系统设置',
             'active_submenu': '个人信息',
         }
-        print(request.user.date_joined)
-        print(type(request.user.date_joined))
         return render(request, 'green/userinfo.html', content)
     else:
         raise Http404("Please sign in!")

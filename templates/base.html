@@ -36,17 +36,17 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img alt="image" class="rounded-circle" src="{% static 'img/profile_small.jpg' %}"/>
+                            <img width="50px" height="50px" alt="image" class="rounded-circle" src="{% static 'img/a4.jpg' %}"/>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">David Williams</span>
+                                <span class="block m-t-xs font-bold">{{ user.username }}</span>
                                 <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'green:userinfo' %}">Profile</a></li>
                                 <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
                                 <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'green:logout' %}">Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
@@ -71,17 +71,17 @@
                         </ul>
                     </li>
                     <li id="传感器">
-                        <a href="mailbox.html"><i class="fa fa-magic"></i> <span class="nav-label">传感器</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-magic"></i> <span class="nav-label">传感器</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li id="传感器列表"><a href="mailbox.html">传感器列表</a></li>
+                            <li id="传感器列表"><a href="{% url 'sensors:get_sensors_list' %}">传感器列表</a></li>
                             <li id="传感器类型设置"><a href="mail_detail.html">传感器类型设置</a></li>
                             <li id="添加新的传感器类型"><a href="mail_compose.html">添加新的传感器类型</a></li>
                         </ul>
                     </li>
                     <li id="控制器">
-                        <a href="index.html#"><i class="fa fa-laptop"></i> <span class="nav-label">控制器</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-laptop"></i> <span class="nav-label">控制器</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li id="控制器列表"><a href="form_basic.html">控制器列表</a></li>
+                            <li id="控制器列表"><a href="{% url 'relays:get_relays_list' %}">控制器列表</a></li>
                         </ul>
                     </li>
                     <li id="水肥设备">

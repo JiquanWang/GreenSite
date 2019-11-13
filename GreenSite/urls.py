@@ -20,5 +20,7 @@ urlpatterns = [
     path('', include('green.urls')),
     path('rooms/', include('rooms.urls')),
     path('shelves/', include('shelves.urls')),
+    path('sensors/', include('sensors.urls')),
+    path('relays/', include('relays.urls')),
     path('admin/', admin.site.urls),
 ]
