@@ -166,31 +166,15 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" class="m-t" role="form" action="{% url 'rooms:add_new_room' %}">
+                            <form method="post" class="m-t" role="form" action="{% url 'sensors:add_sensor_type' %}">
                                 {% csrf_token %}
-                                <div class="form-group  row"><label class="col-sm-2 col-form-label">温室编号</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="room_num"></div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label">传感类型</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="sensor_type"></div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group row"><label class="col-sm-2 col-form-label">温室名字</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="room_name"></div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group row"><label class="col-sm-2 col-form-label">城市</label>
-
-                                    <div class="col-sm-10"><select class="form-control m-b" required name="city">
-                                        {% for city in cities %}
-                                            <option>{{ city.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group row"><label class="col-sm-2 col-form-label">地区</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="area"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">数值单位</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="sensor_type_unit"></div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>

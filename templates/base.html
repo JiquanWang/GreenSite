@@ -36,7 +36,7 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img width="50px" height="50px" alt="image" class="rounded-circle" src="{% static 'img/a4.jpg' %}"/>
+                            <img width="50px" height="50px" alt="image" class="rounded-circle circle-border" src="{% static 'img/a4.jpg' %}"/>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="block m-t-xs font-bold">{{ user.username }}</span>
                                 <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
@@ -74,8 +74,8 @@
                         <a href="#"><i class="fa fa-magic"></i> <span class="nav-label">传感器</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="传感器列表"><a href="{% url 'sensors:get_sensors_list' %}">传感器列表</a></li>
-                            <li id="传感器类型设置"><a href="mail_detail.html">传感器类型设置</a></li>
-                            <li id="添加新的传感器类型"><a href="mail_compose.html">添加新的传感器类型</a></li>
+                            <li id="传感器类型"><a href="{% url 'sensors:sensor_types' %}">传感器类型</a></li>
+                            <li id="添加新的传感器类型"><a href="{% url 'sensors:add_sensor_type' %}">添加新的传感器类型</a></li>
                         </ul>
                     </li>
                     <li id="控制器">
