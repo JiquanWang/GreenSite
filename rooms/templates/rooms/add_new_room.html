@@ -181,6 +181,7 @@
                                 <div class="form-group row"><label class="col-sm-2 col-form-label">城市</label>
 
                                     <div class="col-sm-10"><select class="form-control m-b" required name="city">
+                                        <option value="">请选择</option>
                                         {% for city in cities %}
                                             <option>{{ city.name }}</option>
                                         {% endfor %}

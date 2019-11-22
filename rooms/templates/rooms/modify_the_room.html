@@ -166,29 +166,39 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" class="m-t" role="form" action="{% url 'shelves:add_new_shelf' %}">
+                            <form method="post" class="m-t" role="form" action="{% url 'rooms:modify_the_room' room.id %}">
                                 {% csrf_token %}
-                                <div class="form-group  row"><label class="col-sm-2 col-form-label">花架名称</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="name"></div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label">温室编号</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="room_num" value="{{ room.room_num }}"></div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group row"><label class="col-sm-2 col-form-label">所属温室</label>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">温室名字</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="room_name" value="{{ room.room_name }}"></div>
+                                </div>
 
-                                    <div class="col-sm-10"><select class="form-control m-b" required name="room_id">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">城市</label>
+
+                                    <div class="col-sm-10"><select class="form-control m-b" required name="city">
                                         <option value="">请选择</option>
-                                        {% for room in rooms %}
-                                            <option value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>
+                                        {% for city in cities %}
+                                            <option {% if room.city == city.name %} selected="selected" {% endif %}>{{ city.name }}</option>
                                         {% endfor %}
                                     </select>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">地区</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="area" value="{{ room.area }}"></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <button class="btn btn-white btn-sm" type="reset">重置</button>
-                                        <button class="btn btn-primary btn-sm" type="submit">添加</button>
+                                        <button class="btn btn-primary btn-sm" type="submit">修改</button>
                                     </div>
                                 </div>
                             </form>

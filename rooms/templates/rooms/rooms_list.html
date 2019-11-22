@@ -185,7 +185,7 @@
                         <td>{{ room.city }}{{ room.area }}-{{ room.room_name }}</td>
                         <td class="center">{{ room.sensors_count }}</td>
                         <td class="center">{{ room.relays_count }}</td>
-                        <td class="center">修改信息 | 花架 | 传感器 | 执行器 | 历史数据 | 监控情况</td>
+                        <td class="center"><a style="color: #1faf8f;" href="{% url 'rooms:modify_the_room' room.id %}">修改信息</a> | <a style="color: #1faf8f;" href="{% url 'rooms:get_room_shelves' room.id %}">花架</a> | <a style="color: #1faf8f;" href="{% url 'rooms:get_room_sensors' room.id %}">传感器</a> | <a style="color: #1faf8f;" href="{% url 'rooms:get_room_relays' room.id %}">执行器</a> | 历史数据 | 监控情况</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -213,7 +213,7 @@
     <script>
         $(document).ready(function(){
             $('#dataTables-example').DataTable({
-                pageLength: 10,
+                pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [

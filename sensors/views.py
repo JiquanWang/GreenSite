@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
-from green.models import SensorInfo, SensorType
+from green.models import SensorInfo, SensorType, RoomInfo, FlowerShelf
 from django.urls import reverse, reverse_lazy
+import time
 # Create your views here.
 
 
@@ -46,3 +47,31 @@ def add_sensor_type(request):
             except Exception as e:
                 print(e)
             return HttpResponseRedirect(reverse('sensors:sensor_types'))
+
+
+def add_new_sensor(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            sensor_types_list = SensorType.objects.all()
+            rooms = RoomInfo.objects.all()
+            shelves = FlowerShelf.objects.all()
+            content = {
+                'active_main_menu': '传感器',
+                'active_submenu': '添加新的传感器',
+                'sensor_types': sensor_types_list,
+                'rooms': rooms,
+                'shelves': shelves,
+            }
+            return render(request, 'sensors/add_new_sensor.html', content)
+        if request.method == 'POST':
+            sensor_num = request.POST.get('sensor_num')
+            sensor_type_id = request.POST.get('sensor_type_id')
+            belongto_type = request.POST.get('belongto_type')
+            belongto_id = request.POST.get('belongto_id')
+            try:
+                sensor = SensorInfo(sensor_num=sensor_num, sensor_type_id=sensor_type_id, belongto_type=belongto_type,
+                                    belongto_id=belongto_id, device_index=100, status=0, created_time=int(time.time()))
+                sensor.save()
+            except Exception as e:
+                print(e)
+            return HttpResponseRedirect(reverse('sensors:get_sensors_list'))

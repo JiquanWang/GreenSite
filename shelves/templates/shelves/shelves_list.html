@@ -193,7 +193,7 @@
                         <td>{{ shelf.created_datatime }}</td>
                         <td class="center">{{ shelf.sensors_count }}</td>
                         <td class="center">{{ shelf.relays_count }}</td>
-                        <td class="center">修改信息 | 传感器 | 执行器 | 历史数据</td>
+                        <td class="center"><a style="color: #1faf8f;" href="{% url 'shelves:modify_the_shelf' shelf.id %}">修改信息</a> | <a style="color: #1faf8f;" href="{% url 'shelves:get_shelf_sensors' shelf.id %}">传感器</a> | <a style="color: #1faf8f;" href="{% url 'shelves:get_shelf_relays' shelf.id %}">执行器</a> | 历史数据</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -221,7 +221,7 @@
     <script>
         $(document).ready(function(){
             $('#dataTables-example').DataTable({
-                pageLength: 10,
+                pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [

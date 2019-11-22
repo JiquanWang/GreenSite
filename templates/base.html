@@ -24,6 +24,9 @@
     <link href="{% static 'DataTables/datatables.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/plugins/footable/footable.core.css' %}" rel="stylesheet">
 
+    <!-- orris -->
+    <link href="{% static 'css/plugins/morris/morris-0.4.3.min.css' %}" rel="stylesheet">
+
     <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
@@ -60,7 +63,7 @@
                             <li id="添加新温室"><a href="{% url 'rooms:add_new_room' %}">添加新温室</a></li>
                             <li id="新设备发现"><a href="dashboard_3.html">新设备发现</a></li>
                             <li id="温室最新概况"><a href="dashboard_4_1.html">温室最新概况</a></li>
-                            <li id="全局温室预览"><a href="dashboard_5.html">全局温室预览<span class="label label-primary pull-right"></span></a></li>
+                            <li id="全局温室预览"><a href="dashboard_5.html">全局温室预览</a></li>
                         </ul>
                     </li>
                     <li id="花架">
@@ -74,6 +77,7 @@
                         <a href="#"><i class="fa fa-magic"></i> <span class="nav-label">传感器</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="传感器列表"><a href="{% url 'sensors:get_sensors_list' %}">传感器列表</a></li>
+                            <li id="添加新的传感器"><a href="{% url 'sensors:add_new_sensor' %}">添加新的传感器</a></li>
                             <li id="传感器类型"><a href="{% url 'sensors:sensor_types' %}">传感器类型</a></li>
                             <li id="添加新的传感器类型"><a href="{% url 'sensors:add_sensor_type' %}">添加新的传感器类型</a></li>
                         </ul>
@@ -82,6 +86,7 @@
                         <a href="#"><i class="fa fa-laptop"></i> <span class="nav-label">控制器</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="控制器列表"><a href="{% url 'relays:get_relays_list' %}">控制器列表</a></li>
+                            <li id="添加新的控制器"><a href="{% url 'relays:add_new_relay' %}">添加新的控制器</a></li>
                         </ul>
                     </li>
                     <li id="水肥设备">
@@ -135,6 +140,10 @@
     <script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
     <script src="{% static 'js/demo/peity-demo.js' %}"></script>
 
+    <!-- Morris -->
+    <script src="{% static 'js/plugins/morris/raphael-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/plugins/morris/morris.js' %}"></script>
+
     <!-- Custom and plugin javascript -->
     <script src="{% static 'js/inspinia.js' %}"></script>
     <script src="{% static 'js/plugins/pace/pace.min.js' %}"></script>
@@ -156,6 +165,7 @@
 
     <!-- Toastr -->
     <script src="{% static 'js/plugins/toastr/toastr.min.js' %}"></script>
+
 
     {% if active_submenu %}
     <script type="text/javascript">

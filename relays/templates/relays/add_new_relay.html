@@ -166,20 +166,41 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" class="m-t" role="form" action="{% url 'shelves:add_new_shelf' %}">
+                            <form method="post" class="m-t" role="form" action="{% url 'relays:add_new_relay' %}">
                                 {% csrf_token %}
-                                <div class="form-group  row"><label class="col-sm-2 col-form-label">花架名称</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="name"></div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label">设备编号</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="relay_num"></div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group row"><label class="col-sm-2 col-form-label">所属温室</label>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">设备名称</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="relay_name"></div>
+                                </div>
 
-                                    <div class="col-sm-10"><select class="form-control m-b" required name="room_id">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">设备控制方式</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="device_type"></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">设备状态控制</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="status"></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">所属类型</label>
+                                    <div class="col-sm-10"><select class="form-control m-b" id="belongto_type_select" required name="belongto_type">
                                         <option value="">请选择</option>
-                                        {% for room in rooms %}
-                                            <option value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>
-                                        {% endfor %}
+                                        <option value="1">花架</option>
+                                        <option value="2">温室</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row"><label class="col-sm-2 col-form-label">所属目标</label>
+                                    <div class="col-sm-10"><select class="form-control m-b" id="belongto_id_select" required name="belongto_id">
+                                        {# 该下拉框中的选项由上一个下拉框中的值决定 #}
                                     </select>
                                     </div>
                                 </div>
@@ -210,5 +231,25 @@
 {% endblock %}
 
 {% block script %}
-
+<script type="text/javascript">
+    $('#belongto_type_select').change(function () {
+        var select_content;
+        if ($('#belongto_type_select').val() == 1) {
+            select_content += '{% for shelf in shelves %}\n'+
+                '                                            {% with shelf.belongto_room as room %}\n'+
+                    '                                                <option value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>\n'
+                    +
+                    '                                            {% endwith %}\n'+
+                '                                        {% endfor %}'
+        }
+        else {
+            select_content += '{% for room in rooms %}\n'+
+                '                                            <option value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>\n'
+                +
+                '                                        {% endfor %}'
+        }
+        $('#belongto_id_select').html("");
+        $('#belongto_id_select').html(select_content)
+    });
+</script>
 {% endblock %}
