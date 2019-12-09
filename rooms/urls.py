@@ -9,4 +9,5 @@ urlpatterns = [
     path('get_room_shelves/<int:room_id>/', views.get_room_shelves, name='get_room_shelves'),
     path('get_room_sensors/<int:room_id>/', views.get_room_sensors, name='get_room_sensors'),
     path('get_room_relays/<int:room_id>/', views.get_room_relays, name='get_room_relays'),
+    path('room_environment/<int:room_id>/', views.room_environment, name='room_environment'),
 ]

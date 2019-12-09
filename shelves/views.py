@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
-from green.models import FlowerShelf, RoomInfo, SensorInfo, RelayInfo
+from green.models import FlowerShelf, RoomInfo, SensorInfo, RelayInfo, SensorType
 import datetime, time
 # Create your views here.
 
@@ -66,10 +66,16 @@ def modify_the_shelf(request, shelf_id):
 def get_shelf_sensors(request, shelf_id):
     if request.user.is_authenticated:
         sensors_list = SensorInfo.objects.filter(belongto_type=1, belongto_id=shelf_id)
+        sensor_type_list = SensorType.objects.all()
+        rooms = RoomInfo.objects.all()
+        shelves = FlowerShelf.objects.all()
         content = {
             'active_main_menu': '传感器',
             'active_submenu': '传感器列表',
             'sensors_list': sensors_list,
+            'sensor_types': sensor_type_list,
+            'rooms': rooms,
+            'shelves': shelves,
         }
         return render(request, 'sensors/sensors_list.html', content)
 
@@ -77,9 +83,13 @@ def get_shelf_sensors(request, shelf_id):
 def get_shelf_relays(request, shelf_id):
     if request.user.is_authenticated:
         relays_list = RelayInfo.objects.filter(belongto_type=1, belongto_id=shelf_id)
+        rooms = RoomInfo.objects.all()
+        shelves = FlowerShelf.objects.all()
         content = {
             'active_main_menu': '控制器',
             'active_submenu': '控制器列表',
             'relays_list': relays_list,
+            'rooms': rooms,
+            'shelves': shelves,
         }
         return render(request, 'relays/relays_list.html', content)

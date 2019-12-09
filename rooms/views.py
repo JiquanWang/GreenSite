@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
-from green.models import RoomInfo, QuanShi, SensorInfo, FlowerShelf, RelayInfo
+from green.models import *
 import datetime, time
 # Create your views here.
 
@@ -82,10 +82,16 @@ def get_room_shelves(request, room_id):
 def get_room_sensors(request, room_id):
     if request.user.is_authenticated:
         sensors_list = SensorInfo.objects.filter(belongto_type=2, belongto_id=room_id)
+        sensor_type_list = SensorType.objects.all()
+        rooms = RoomInfo.objects.all()
+        shelves = FlowerShelf.objects.all()
         content = {
             'active_main_menu': '传感器',
             'active_submenu': '传感器列表',
             'sensors_list': sensors_list,
+            'sensor_types': sensor_type_list,
+            'rooms': rooms,
+            'shelves': shelves,
         }
         return render(request, 'sensors/sensors_list.html', content)
 
@@ -93,9 +99,36 @@ def get_room_sensors(request, room_id):
 def get_room_relays(request, room_id):
     if request.user.is_authenticated:
         relays_list = RelayInfo.objects.filter(belongto_type=2, belongto_id=room_id)
+        rooms = RoomInfo.objects.all()
+        shelves = FlowerShelf.objects.all()
         content = {
             'active_main_menu': '控制器',
             'active_submenu': '控制器列表',
             'relays_list': relays_list,
+            'rooms': rooms,
+            'shelves': shelves,
         }
         return render(request, 'relays/relays_list.html', content)
+
+
+def room_environment(request, room_id):
+    if request.user.is_authenticated:
+        try:
+            sensor_temperature = SensorInfo.objects.get(belongto_type=2, belongto_id=room_id, sensor_type_id=1)
+            sensor_humidity = SensorInfo.objects.get(belongto_type=2, belongto_id=room_id, sensor_type_id=2)
+            sensor_co2 = SensorInfo.objects.get(belongto_type=2, belongto_id=room_id, sensor_type_id=4)
+            data_record_temperature = DataRecord.objects.filter(sensor_num=sensor_temperature.sensor_num).order_by(
+                '-id')[:20]
+            data_record_humidity = DataRecord.objects.filter(sensor_num=sensor_humidity.sensor_num).order_by('-id')[:20]
+            data_record_co2 = DataRecord.objects.filter(sensor_num=sensor_co2.sensor_num).order_by('-id')[:20]
+        except Exception as e:
+            print(e)
+        content = {
+            'active_main_menu': '温室',
+            'active_submenu': '温室环境',
+            'data_record_temperature': data_record_temperature,
+            'data_record_humidity': data_record_humidity,
+            'data_record_co2': data_record_co2,
+        }
+        return render(request, 'rooms/room_environment.html', content)
+

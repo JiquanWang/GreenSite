@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
-from green.models import SensorInfo, SensorType, RoomInfo, FlowerShelf
+from green.models import SensorInfo, SensorType, RoomInfo, FlowerShelf, DataRecord
 from django.urls import reverse, reverse_lazy
 import time
 # Create your views here.
@@ -11,10 +11,16 @@ import time
 def get_sensors_list(request):
     if request.user.is_authenticated:
         sensors_list = SensorInfo.objects.all()
+        sensor_types_list = SensorType.objects.all()
+        rooms = RoomInfo.objects.all()
+        shelves = FlowerShelf.objects.all()
         content = {
             'active_main_menu': '传感器',
             'active_submenu': '传感器列表',
             'sensors_list': sensors_list,
+            'sensor_types': sensor_types_list,
+            'rooms': rooms,
+            'shelves': shelves,
         }
         return render(request, 'sensors/sensors_list.html', content)
 
@@ -75,3 +81,60 @@ def add_new_sensor(request):
             except Exception as e:
                 print(e)
             return HttpResponseRedirect(reverse('sensors:get_sensors_list'))
+
+
+def modify_the_sensor(request, sensor_id):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            sensor = SensorInfo.objects.get(id=sensor_id)
+            sensor_types_list = SensorType.objects.all()
+            rooms = RoomInfo.objects.all()
+            shelves = FlowerShelf.objects.all()
+            content = {
+                'active_main_menu': '传感器',
+                'active_submenu': '修改传感器信息',
+                'sensor_types': sensor_types_list,
+                'rooms': rooms,
+                'shelves': shelves,
+                'sensor': sensor,
+            }
+            return render(request, 'sensors/modify_the_sensor.html', content)
+        if request.method == 'POST':
+            try:
+                sensor = SensorInfo.objects.get(id=sensor_id)
+                sensor.sensor_num = request.POST.get('sensor_num')
+                sensor.sensor_type_id = request.POST.get('sensor_type_id')
+                sensor.belongto_type = request.POST.get('belongto_type')
+                sensor.belongto_id = request.POST.get('belongto_id')
+                sensor.save()
+            except Exception as e:
+                print(e)
+            return HttpResponseRedirect(reverse('sensors:get_sensors_list'))
+
+
+def delete_the_sensor(request, sensor_id):
+    if request.user.is_authenticated:
+        try:
+            sensor = SensorInfo.objects.get(id=sensor_id)
+            sensor.delete()
+        except Exception as e:
+            print(e)
+        return HttpResponseRedirect(reverse('sensors:get_sensors_list'))
+
+
+def sensor_data(request, sensor_id):
+    if request.user.is_authenticated:
+        try:
+            sensor = SensorInfo.objects.get(id=sensor_id)
+            sensor_type = SensorType.objects.get(id=sensor.sensor_type_id)
+            data_record = DataRecord.objects.filter(sensor_num=sensor.sensor_num).order_by('-id')[:20]
+        except Exception as e:
+            print(e)
+        content = {
+            'active_main_menu': '传感器',
+            'active_submenu': '传感器数据',
+            'sensor': sensor,
+            'sensor_type': sensor_type,
+            'data_record': data_record,
+        }
+        return render(request, 'sensors/sensor_data.html', content)

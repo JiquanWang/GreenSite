@@ -166,10 +166,10 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form method="post" class="m-t" role="form" action="{% url 'sensors:add_new_sensor' %}">
+                            <form method="post" class="m-t" role="form" action="{% url 'sensors:modify_the_sensor' sensor.id %}">
                                 {% csrf_token %}
                                 <div class="form-group  row"><label class="col-sm-2 col-form-label">传感器编号</label>
-                                    <div class="col-sm-10"><input type="text" class="form-control" required name="sensor_num"></div>
+                                    <div class="col-sm-10"><input type="text" class="form-control" required name="sensor_num" value="{{ sensor.sensor_num }}"></div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
@@ -177,7 +177,9 @@
                                     <div class="col-sm-10"><select class="form-control m-b" required name="sensor_type_id">
                                         <option value="">请选择</option>
                                         {% for sensor_type in sensor_types %}
-                                            <option value="{{ sensor_type.id }}">{{ sensor_type.sensor_type }}</option>
+                                            <option {% if sensor.sensor_type_id == sensor_type.id %}
+                                                selected="selected"
+                                            {% endif %} value="{{ sensor_type.id }}">{{ sensor_type.sensor_type }}</option>
                                         {% endfor %}
 
                                     </select>
@@ -189,8 +191,12 @@
 
                                     <div class="col-sm-10"><select class="form-control m-b" id="belongto_type_select" required name="belongto_type">
                                         <option value="">请选择</option>
-                                        <option value="1">花架</option>
-                                        <option value="2">温室</option>
+                                        <option {% if sensor.belongto_type == 1 %}
+                                            selected="selected"
+                                        {% endif %} value="1">花架</option>
+                                        <option {% if sensor.belongto_type == 2 %}
+                                            selected="selected"
+                                        {% endif %} value="2">温室</option>
                                     </select>
                                     </div>
                                 </div>
@@ -207,7 +213,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <button class="btn btn-white btn-sm" type="reset">重置</button>
-                                        <button class="btn btn-primary btn-sm" type="submit">添加</button>
+                                        <button class="btn btn-primary btn-sm" type="submit">修改</button>
                                     </div>
                                 </div>
                             </form>
@@ -230,21 +236,36 @@
 
 {% block script %}
 <script type="text/javascript">
-    $('#belongto_type_select').change(function () {
-        var select_content;
-        if ($('#belongto_type_select').val() == 1) {
-            select_content += '{% for shelf in shelves %}\n'+
+    var shelf = '{% for shelf in shelves %}\n'+
                 '                                            {% with shelf.belongto_room as room %}\n'+
-                    '                                                <option value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>\n'
+                    '                                                <option {% if sensor.belongto_type == 1 and sensor.belongto_id == shelf.id %}selected="selected"{% endif %} value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>\n'
                     +
                     '                                            {% endwith %}\n'+
-                '                                        {% endfor %}'
+                '                                        {% endfor %}';
+    var room = '{% for room in rooms %}\n'+
+                '                                            <option {% if sensor.belongto_type == 2 and sensor.belongto_id == room.id %}selected="selected"{% endif %} value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>\n'
+                +
+                '                                        {% endfor %}';
+
+    $(document).ready(function () {
+        var select_content = '<option value="">请选择</option>';
+        if ($('#belongto_type_select').val() == 1) {
+            select_content += shelf
         }
         else {
-            select_content += '{% for room in rooms %}\n'+
-                '                                            <option value="{{ room.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>\n'
-                +
-                '                                        {% endfor %}'
+            select_content += room
+        }
+        $('#belongto_id_select').html("");
+        $('#belongto_id_select').html(select_content)
+    });
+
+    $('#belongto_type_select').change(function () {
+        var select_content = '<option value="">请选择</option>';
+        if ($('#belongto_type_select').val() == 1) {
+            select_content += shelf
+        }
+        else {
+            select_content += room
         }
         $('#belongto_id_select').html("");
         $('#belongto_id_select').html(select_content)

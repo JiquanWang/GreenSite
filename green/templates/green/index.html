@@ -3,7 +3,7 @@
 {% block content %}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             <form role="search" class="navbar-form-custom" action="search_results.html">
@@ -122,7 +122,7 @@
 
         </nav>
         </div>
-            <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="row wrapper border-bottom white-bg page-heading gray-bg">
                 <div class="col-lg-10">
                     <h2>主页</h2>
                     <ol class="breadcrumb">
@@ -144,11 +144,58 @@
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox ">
                         <div class="ibox-title">
+                            <h5>{{ active_main_menu }} <small>温室信息展示</small></h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form method="post" class="form-inline" role="form" action="{% url 'green:index' %}">
+                                {% csrf_token %}
+                                <div class="form-group col-8">
+                                    <select class="form-control col-10" required name="room_num">
+                                        <option value="">请选择温室</option>
+                                        <option value="01">水培温室</option>
+                                        <option value="02">基质培温室</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary" type="submit">选择</button>
+
+{#                                <div class="form-group row">#}
+{#                                    <div class="col-sm-4 col-sm-offset-2">#}
+{#                                        <button class="btn btn-primary btn-sm" type="submit">添加</button>#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title gray-bg">
                             <h5>室内温度</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
@@ -168,18 +215,16 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="ibox-content">
-                            <div id="morris-one-line-chart"></div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-temperature-chart"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Simple one line Example </h5>
+                <div class="col-lg-4">
+                    <div class="ibox">
+                        <div class="ibox-title gray-bg">
+                            <h5>基质视频</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -198,18 +243,16 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="ibox-content">
+                        <div class="ibox-content gray-bg">
                             <div id="morris-area-chart"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-4">
                     <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Simple one line Example </h5>
+                        <div class="ibox-title gray-bg">
+                            <h5>二氧化碳</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -228,75 +271,196 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="ibox-content">
-                            <div id="morris-donut-chart"></div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-co2-chart"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Simple one line Example </h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-bar-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>Simple one line Example </h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-line-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
-        <div class="footer">
+        <div class="wrapper wrapper-content animated fadeInRight gray-bg">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title gray-bg">
+                            <h5>室内湿度</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-humidity-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ibox">
+                        <div class="ibox-title gray-bg">
+                            <h5>水培视频</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-area-chart1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title gray-bg">
+                            <h5>土壤湿度</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-donut-chart1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight gray-bg">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title gray-bg">
+                            <h5>关照强度</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-one-line-chart2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ibox">
+                        <div class="ibox-title gray-bg">
+                            <h5>天气情况</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-area-chart2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title gray-bg">
+                            <h5>光有效值</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="dropdown-item">Config option 1</a>
+                                    </li>
+                                    <li><a href="#" class="dropdown-item">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content gray-bg">
+                            <div id="morris-donut-chart2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="footer gray-bg">
             <div class="pull-right">
                 智能植物工厂管理系统
             </div>
@@ -312,7 +476,23 @@
     <script>
         $(function() {
             Morris.Line({
-                element: 'morris-one-line-chart',
+                element: 'morris-temperature-chart',
+                    data: [
+                        {% for data in data_record_temperature %}
+                            { time: '{{ data.collect_datetime }}', value: {{ data.sensor_value }} },
+                        {% endfor %}
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
+            });
+            Morris.Line({
+                element: 'morris-area-chart',
                     data: [
                         { time: '2019-11-17 10:54:01', value: 21.0 },
                         { time: '2019-11-17 11:09:01', value: 22.5 },
@@ -329,77 +509,160 @@
                 ykeys: ['value'],
                 resize: true,
                 lineWidth:4,
-                labels: ['Value'],
+                labels: ['温度'],
                 lineColors: ['#1ab394'],
                 pointSize:5,
+                units:'℃',
             });
-
-            Morris.Area({
-                element: 'morris-area-chart',
-                data: [{ period: '2010 Q1', iphone: 2666, ipad: null, itouch: 2647 },
-                    { period: '2010 Q2', iphone: 2778, ipad: 2294, itouch: 2441 },
-                    { period: '2010 Q3', iphone: 4912, ipad: 1969, itouch: 2501 },
-                    { period: '2010 Q4', iphone: 3767, ipad: 3597, itouch: 5689 },
-                    { period: '2011 Q1', iphone: 6810, ipad: 1914, itouch: 2293 },
-                    { period: '2011 Q2', iphone: 5670, ipad: 4293, itouch: 1881 },
-                    { period: '2011 Q3', iphone: 4820, ipad: 3795, itouch: 1588 },
-                    { period: '2011 Q4', iphone: 15073, ipad: 5967, itouch: 5175 },
-                    { period: '2012 Q1', iphone: 10687, ipad: 4460, itouch: 2028 },
-                    { period: '2012 Q2', iphone: 8432, ipad: 5713, itouch: 1791 } ],
-                xkey: 'period',
-                ykeys: ['iphone', 'ipad', 'itouch'],
-                labels: ['iPhone', 'iPad', 'iPod Touch'],
-                pointSize: 2,
-                hideHover: 'auto',
+            Morris.Line({
+                element: 'morris-co2-chart',
+                    data: [
+                        {% for data in data_record_co2 %}
+                            { time: '{{ data.collect_datetime }}', value: {{ data.sensor_value }} },
+                        {% endfor %}
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
                 resize: true,
-                lineColors: ['#87d6c6', '#54cdb4','#1ab394'],
-                lineWidth:2,
-                pointSize:1,
-            });
-
-            Morris.Donut({
-                element: 'morris-donut-chart',
-                data: [{ label: "Download Sales", value: 12 },
-                    { label: "In-Store Sales", value: 30 },
-                    { label: "Mail-Order Sales", value: 20 } ],
-                resize: true,
-                colors: ['#87d6c6', '#54cdb4','#1ab394'],
-            });
-
-            Morris.Bar({
-                element: 'morris-bar-chart',
-                data: [{ y: '2006', a: 60, b: 50 },
-                    { y: '2007', a: 75, b: 65 },
-                    { y: '2008', a: 50, b: 40 },
-                    { y: '2009', a: 75, b: 65 },
-                    { y: '2010', a: 50, b: 40 },
-                    { y: '2011', a: 75, b: 65 },
-                    { y: '2012', a: 100, b: 90 } ],
-                xkey: 'y',
-                ykeys: ['a', 'b'],
-                labels: ['Series A', 'Series B'],
-                hideHover: 'auto',
-                resize: true,
-                barColors: ['#1ab394', '#cacaca'],
+                lineWidth:4,
+                labels: ['二氧化碳'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'ppm',
             });
 
             Morris.Line({
-                element: 'morris-line-chart',
-                data: [{ y: '2006', a: 100, b: 90 },
-                    { y: '2007', a: 75, b: 65 },
-                    { y: '2008', a: 50, b: 40 },
-                    { y: '2009', a: 75, b: 65 },
-                    { y: '2010', a: 50, b: 40 },
-                    { y: '2011', a: 75, b: 65 },
-                    { y: '2012', a: 100, b: 90 } ],
-                xkey: 'y',
-                ykeys: ['a', 'b'],
-                labels: ['Series A', 'Series B'],
-                hideHover: 'auto',
+                element: 'morris-humidity-chart',
+                    data: [
+                        {% for data in data_record_humidity %}
+                            { time: '{{ data.collect_datetime }}', value: {{ data.sensor_value }} },
+                        {% endfor %}
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
                 resize: true,
-                lineColors: ['#54cdb4','#1ab394'],
+                lineWidth:4,
+                labels: ['湿度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'%',
+            });
+            Morris.Line({
+                element: 'morris-area-chart1',
+                    data: [
+                        { time: '2019-11-17 10:54:01', value: 21.0 },
+                        { time: '2019-11-17 11:09:01', value: 22.5 },
+                        { time: '2019-11-17 11:24:01', value: 21.3 },
+                        { time: '2019-11-17 11:39:01', value: 22.8 },
+                        { time: '2019-11-17 11:50:01', value: 21.8 },
+                        { time: '2019-11-17 12:05:01', value: 21.7 },
+                        { time: '2019-11-17 12:17:01', value: 21.0 },
+                        { time: '2019-11-17 12:29:01', value: 22.6 },
+                        { time: '2019-11-17 12:42:01', value: 22.0 },
+                        { time: '2019-11-17 13:00:01', value: 21.6 }
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
+            });
+            Morris.Line({
+                element: 'morris-donut-chart1',
+                    data: [
+                        { time: '2019-11-17 10:54:01', value: 21.0 },
+                        { time: '2019-11-17 11:09:01', value: 22.5 },
+                        { time: '2019-11-17 11:24:01', value: 21.3 },
+                        { time: '2019-11-17 11:39:01', value: 22.8 },
+                        { time: '2019-11-17 11:50:01', value: 21.8 },
+                        { time: '2019-11-17 12:05:01', value: 21.7 },
+                        { time: '2019-11-17 12:17:01', value: 21.0 },
+                        { time: '2019-11-17 12:29:01', value: 22.6 },
+                        { time: '2019-11-17 12:42:01', value: 22.0 },
+                        { time: '2019-11-17 13:00:01', value: 21.6 }
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
             });
 
+            Morris.Line({
+                element: 'morris-one-line-chart2',
+                    data: [
+                        { time: '2019-11-17 10:54:01', value: 21.0 },
+                        { time: '2019-11-17 11:09:01', value: 22.5 },
+                        { time: '2019-11-17 11:24:01', value: 21.3 },
+                        { time: '2019-11-17 11:39:01', value: 22.8 },
+                        { time: '2019-11-17 11:50:01', value: 21.8 },
+                        { time: '2019-11-17 12:05:01', value: 21.7 },
+                        { time: '2019-11-17 12:17:01', value: 21.0 },
+                        { time: '2019-11-17 12:29:01', value: 22.6 },
+                        { time: '2019-11-17 12:42:01', value: 22.0 },
+                        { time: '2019-11-17 13:00:01', value: 21.6 }
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
+            });
+            Morris.Line({
+                element: 'morris-area-chart2',
+                    data: [
+                        { time: '2019-11-17 10:54:01', value: 21.0 },
+                        { time: '2019-11-17 11:09:01', value: 22.5 },
+                        { time: '2019-11-17 11:24:01', value: 21.3 },
+                        { time: '2019-11-17 11:39:01', value: 22.8 },
+                        { time: '2019-11-17 11:50:01', value: 21.8 },
+                        { time: '2019-11-17 12:05:01', value: 21.7 },
+                        { time: '2019-11-17 12:17:01', value: 21.0 },
+                        { time: '2019-11-17 12:29:01', value: 22.6 },
+                        { time: '2019-11-17 12:42:01', value: 22.0 },
+                        { time: '2019-11-17 13:00:01', value: 21.6 }
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
+            });
+            Morris.Line({
+                element: 'morris-donut-chart2',
+                    data: [
+                        { time: '2019-11-17 10:54:01', value: 21.0 },
+                        { time: '2019-11-17 11:09:01', value: 22.5 },
+                        { time: '2019-11-17 11:24:01', value: 21.3 },
+                        { time: '2019-11-17 11:39:01', value: 22.8 },
+                        { time: '2019-11-17 11:50:01', value: 21.8 },
+                        { time: '2019-11-17 12:05:01', value: 21.7 },
+                        { time: '2019-11-17 12:17:01', value: 21.0 },
+                        { time: '2019-11-17 12:29:01', value: 22.6 },
+                        { time: '2019-11-17 12:42:01', value: 22.0 },
+                        { time: '2019-11-17 13:00:01', value: 21.6 }
+                    ],
+                xkey: 'time',
+                ykeys: ['value'],
+                resize: true,
+                lineWidth:4,
+                labels: ['温度'],
+                lineColors: ['#1ab394'],
+                pointSize:5,
+                units:'℃',
+            });
         });
 
     </script>

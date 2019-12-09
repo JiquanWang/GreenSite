@@ -139,7 +139,6 @@
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox ">
@@ -165,17 +164,45 @@
                             </div>
                         </div>
                         <div class="ibox-content">
+                            <div class="form-group row"><label class="col-sm-2 col-form-label">传感器类型</label>
+                                <div class="col-sm-10"><select id="filter1" class="form-control m-b" required name="sensor_type_id">
+                                    <option value="">请选择</option>
+                                    {% for sensor_type in sensor_types %}
+                                        <option>{{ sensor_type.sensor_type }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"><label class="col-sm-2 col-form-label">所属类型</label>
+                                <div class="col-sm-10"><select id="filter2" class="form-control m-b" id="belongto_type_select" name="belongto_type">
+                                    <option value="">请选择</option>
+                                    <option>花架</option>
+                                    <option>温室</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"><label class="col-sm-2 col-form-label">所属目标</label>
+                                <div class="col-sm-10"><select id="filter3" class="form-control m-b" name="belongto_id">
+                                    {# 该下拉框中的选项由上一个下拉框中的值决定 #}
+                                </select>
+                                </div>
+                            </div>
+
                             <input type="text" class="form-control form-control-sm m-b-xs" id="filter"
                                    placeholder="Search in table">
-                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="20" data-filter=#filter>
+
+                            <table id="footable" class="footable table table-stripped toggle-arrow-tiny" data-page-size="100" data-filter="#filter">
                                 <thead>
                                 <tr>
                                     <th data-toggle="true">传感器编号</th>
                                     <th>传感器类型</th>
                                     <th>所属</th>
                                     <th data-hide="all">添加时间</th>
-                                    <th data-hide="all">操作</th>
+                                    <th data-hide="all">查看</th>
                                     <th>是否在线</th>
+                                    <th>设备管理</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -200,13 +227,14 @@
                                         {% endif %}
                                     </td>
                                     <td>{{ sensor.created_datetime }}</td>
+                                        <td><a style="color: #1ab394" href="{% url 'sensors:sensor_data' sensor.id %}">实时数据</a></td>
                                     {% endwith %}
-                                    <td>修改|删除</td>
                                     <td><a href="#">{% if sensor.status == 1 %}
                                         <i class="fa fa-check text-navy"></i>
                                         {% else %}
                                         <i class="fa fa-times text-danger"></i>
                                     {% endif %}</a></td>
+                                    <td><a style="color: #1ab394" href="{% url 'sensors:modify_the_sensor' sensor.id %}">修改</a>|<a style="color: #1ab394" href="{% url 'sensors:delete_the_sensor' sensor.id %}">删除</a></td>
                                 </tr>
                                 {% endfor %}
 
@@ -240,10 +268,47 @@
 {% block script %}
     <script>
         $(document).ready(function() {
-
             $('.footable').footable();
 
         });
 
+    </script>
+    <script type="text/javascript">
+        var shelf = '{% for shelf in shelves %}\n'+
+                '                                            {% with shelf.belongto_room as room %}\n'+
+                    '                                                <option value="{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>\n'
+                    +
+                    '                                            {% endwith %}\n'+
+                '                                        {% endfor %}';
+        var room = '{% for room in rooms %}\n'+
+                    '                                            <option value="{{ room.city }}{{ room.area }}-{{ room.room_name }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}({{ room.sensors_count }},{{ room.relays_count }})</option>\n'
+                    +
+                    '                                        {% endfor %}';
+
+        $('#filter1').change(function(){
+            if ($(this).val() != ""){
+                $('table tbody tr').hide().filter(":contains('"+($(this).val())+"')").show();
+            }
+            else {
+                $('table tbody tr').hide().show();
+            }
+        });
+
+        $('#filter2').change(function(){
+            $('table tbody tr').hide().filter(":contains('"+($(this).val())+"')").show();
+            var select_content = '<option value="">请选择</option>';
+            if ($('#filter2').val() == "花架") {
+                select_content += shelf
+            }
+            else if ($('#filter2').val() == "温室") {
+                select_content += room
+            }
+            $('#filter3').html("");
+            $('#filter3').html(select_content)
+        });
+
+        $('#filter3').change(function(){
+            $('table tbody tr').hide().filter(":contains('"+($(this).val())+"')").show();
+        });
     </script>
 {% endblock %}
