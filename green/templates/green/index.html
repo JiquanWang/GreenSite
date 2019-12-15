@@ -5,14 +5,13 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#" id="menu_hidden"><i class="fa fa-bars"></i>
                     </a>
-                    <form method="post" class="navbar-form-custom form-inline" role="search"
+                    <form method="post" class="navbar-form-custom form-inline" role="search" id="select_form"
                           action="{% url 'green:index' %}">
                         {% csrf_token %}
                         <div class="form-group col-8">
-                            <select class="form-control col-10" required name="room_num" id="top-search">
-                                <option value="">请选择温室</option>
+                            <select class="form-control col-10" required name="room_num" id="top-search" onchange="func()">
                                 <option value="01" {% if active_submenu == "水培温室" %}
                                         selected="selected"
                                 {% endif %}>水培温室
@@ -23,7 +22,6 @@
                                 </option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" type="submit">选择</button>
                     </form>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
@@ -145,7 +143,7 @@
                     <div class="ibox ">
                         <div class="ibox-title">
                             <span class="label label-success float-right">当前</span>
-                            <h5>室内温度</h5>
+                            <h5>空气温度</h5>
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{ data_record_temperature_latest.sensor_value }}℃</h1>
@@ -157,7 +155,7 @@
                     <div class="ibox ">
                         <div class="ibox-title">
                             <span class="label label-info float-right">当前</span>
-                            <h5>室内湿度</h5>
+                            <h5>空气湿度</h5>
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins">{{ data_record_humidity_latest.sensor_value }}%<span
@@ -194,7 +192,7 @@
                 <div class="col-lg-4">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>室内温度</h5>
+                            <h5>空气温度</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -219,7 +217,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <figure>
+                    <figure class="col-lg-12">
                         <iframe id="showvideo" width="620" height="430"
                                 src="https://player.bilibili.com/player.html?aid=38885840&cid=68344669&page=1"
                                 allowfullscreen="allowfullscreen"></iframe>
@@ -257,7 +255,7 @@
                 <div class="col-lg-4">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>室内湿度</h5>
+                            <h5>空气湿度</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -362,7 +360,13 @@
 
 {% block script %}
     <script>
+
+        function func(){
+            $('#select_form').submit();
+        }
+
         $(function () {
+
             var data_record_temperature = [
                 {% for data in data_record_temperature %}
                     {time: '{{ data.collect_datetime }}', value: {{ data.sensor_value }}},

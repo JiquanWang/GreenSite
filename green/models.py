@@ -116,6 +116,9 @@ class Rules(models.Model):
         managed = False
         db_table = 'rules'
 
+    def created_datetime(self):
+        return datetime.datetime.fromtimestamp(self.created_time).strftime("%Y-%m-%d %H:%M:%S")
+
 
 class RelayInfo(models.Model):
     relay_num = models.CharField(max_length=32, blank=True, null=True)

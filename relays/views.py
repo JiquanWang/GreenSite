@@ -134,3 +134,4 @@ def adapt_the_relay(request, relay_id):
             except Exception as e:
                 print(e)
             return HttpResponseRedirect(reverse('relays:get_relays_list'))
+

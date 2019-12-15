@@ -22,5 +22,6 @@ urlpatterns = [
     path('shelves/', include('shelves.urls')),
     path('sensors/', include('sensors.urls')),
     path('relays/', include('relays.urls')),
+    path('rules/', include('rules.urls')),
     path('admin/', admin.site.urls),
 ]

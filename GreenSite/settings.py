@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'shelves.apps.ShelvesConfig',
     'relays.apps.RelaysConfig',
     'sensors.apps.SensorsConfig',
+    'rules.apps.RulesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,8 +86,8 @@ DATABASES = {
         'NAME': 'agriot',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '3308',
+        'HOST': '47.99.100.158',
+        'PORT': '3306',
     }
 }
 
