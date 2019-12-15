@@ -230,6 +230,9 @@ class RoomInfo(models.Model):
     def relays_count(self):
         return RelayInfo.objects.filter(belongto_type=2, belongto_id=self.id).count()
 
+    def shelves_count(self):
+        return FlowerShelf.objects.filter(room_id=self.id).count()
+
 
 class SystemDict(models.Model):
     type = models.IntegerField(blank=True, null=True)

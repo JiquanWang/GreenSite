@@ -18,28 +18,67 @@ def index(request):
                 sensor_co2 = SensorInfo.objects.get(belongto_type=2, belongto_id=room.id, sensor_type_id=4)
                 data_record_temperature = DataRecord.objects.filter(sensor_num=sensor_temperature.sensor_num).order_by(
                     '-id')[:10]
+                data_record_temperature_latest = data_record_temperature[0]
                 data_record_humidity = DataRecord.objects.filter(sensor_num=sensor_humidity.sensor_num).order_by('-id')[
                                        :10]
+                data_record_humidity_latest = data_record_humidity[0]
                 data_record_co2 = DataRecord.objects.filter(sensor_num=sensor_co2.sensor_num).order_by('-id')[:10]
+                data_record_co2_latest = data_record_co2[0]
             except Exception as e:
                 print(e)
             content = {
-                'active_main_menu': 'Home',
-                'active_submenu': None,
+                'active_main_menu': '主页',
+                'active_submenu': '水培温室',
+                'room': room,
                 'data_record_temperature': data_record_temperature,
+                'data_record_temperature_latest': data_record_temperature_latest,
                 'data_record_humidity': data_record_humidity,
+                'data_record_humidity_latest': data_record_humidity_latest,
                 'data_record_co2': data_record_co2,
+                'data_record_co2_latest': data_record_co2_latest,
             }
             return render(request, 'green/index.html', content)
         if request.method == 'POST':
-            pass
+            room_num = request.POST.get('room_num')
+            try:
+                room = RoomInfo.objects.get(room_num=room_num)
+                sensor_temperature = SensorInfo.objects.get(belongto_type=2, belongto_id=room.id, sensor_type_id=1)
+                sensor_humidity = SensorInfo.objects.get(belongto_type=2, belongto_id=room.id, sensor_type_id=2)
+                sensor_co2 = SensorInfo.objects.get(belongto_type=2, belongto_id=room.id, sensor_type_id=4)
+                data_record_temperature = DataRecord.objects.filter(sensor_num=sensor_temperature.sensor_num).order_by(
+                    '-id')[:10]
+                data_record_temperature_latest = data_record_temperature[0]
+                data_record_humidity = DataRecord.objects.filter(sensor_num=sensor_humidity.sensor_num).order_by('-id')[
+                                       :10]
+                data_record_humidity_latest = data_record_humidity[0]
+                data_record_co2 = DataRecord.objects.filter(sensor_num=sensor_co2.sensor_num).order_by('-id')[:10]
+                data_record_co2_latest = data_record_co2[0]
+            except Exception as e:
+                print(e)
+            active_submenu = ""
+            if room_num == '01':
+                active_submenu = '水培温室'
+            else:
+                active_submenu = '基质培温室'
+            content = {
+                'active_main_menu': '主页',
+                'active_submenu': active_submenu,
+                'room': room,
+                'data_record_temperature': data_record_temperature,
+                'data_record_temperature_latest': data_record_temperature_latest,
+                'data_record_humidity': data_record_humidity,
+                'data_record_humidity_latest': data_record_humidity_latest,
+                'data_record_co2': data_record_co2,
+                'data_record_co2_latest': data_record_co2_latest,
+            }
+            return render(request, 'green/index.html', content)
     return render(request, 'green/login.html')
 
 
 # 登录
 def login(request):
     if request.user.is_authenticated:
-        return render(request, 'green/index.html')
+        return HttpResponseRedirect(reverse('green:index'))
     if request.method == 'GET':
         return render(request, 'green/login.html')
     state = None

@@ -185,7 +185,7 @@
                         <td>{{ room.city }}{{ room.area }}-{{ room.room_name }}</td>
                         <td class="center">{{ room.sensors_count }}</td>
                         <td class="center">{{ room.relays_count }}</td>
-                        <td class="center"><a style="color: #1ab394;" href="{% url 'rooms:modify_the_room' room.id %}">修改信息</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_shelves' room.id %}">花架</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_sensors' room.id %}">传感器</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_relays' room.id %}">执行器</a> | 历史数据 | <a style="color: #1ab394" href="{% url 'rooms:room_environment' room.id %}">监控情况</a></td>
+                        <td class="center"><a style="color: #1ab394;" href="{% url 'rooms:modify_the_room' room.id %}">修改信息</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_shelves' room.id %}">花架</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_sensors' room.id %}">传感器</a> | <a style="color: #1ab394;" href="{% url 'rooms:get_room_relays' room.id %}">执行器</a> |  <a style="color: #1ab394" href="{% url 'rooms:room_environment' room.id %}">实时数据</a></td>
                     </tr>
                     {% endfor %}
                     </tbody>
