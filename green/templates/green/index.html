@@ -5,13 +5,16 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top gray-bg" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#" id="menu_hidden"><i class="fa fa-bars"></i>
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#" id="menu_hidden"><i
+                            class="fa fa-bars"></i>
                     </a>
                     <form method="post" class="navbar-form-custom form-inline" role="search" id="select_form"
                           action="{% url 'green:index' %}">
                         {% csrf_token %}
                         <div class="form-group col-8">
-                            <select class="form-control col-10" required name="room_num" id="top-search" onchange="func()">
+                            <select class="form-control col-10" required name="room_num" id="top-search"
+                                    onchange="func(this.value)">
+                                <option value="">请选择</option>
                                 <option value="01" {% if active_submenu == "水培温室" %}
                                         selected="selected"
                                 {% endif %}>水培温室
@@ -20,6 +23,19 @@
                                         selected="selected"
                                 {% endif %}>基质培温室
                                 </option>
+                            </select>
+                        </div>
+                    </form>
+                    <form method="post" class="navbar-form-custom form-inline" role="search" id="select_form2"
+                          action="{% url 'green:index2' %}">
+                        {% csrf_token %}
+                        <div class="form-group col-8">
+                            <select class="form-control col-10" required name="shelf_id" id="top-search"
+                                    onchange="func2(this.value)">
+                                <option value="">请选择</option>
+                                {% for shelf in shelves_list %}
+                                    <option value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </form>
@@ -190,146 +206,99 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>空气温度</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                    <div class="tabs-container white-bg">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active" data-toggle="tab"> 空气温度</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active">
+                                <div id="morris-temperature-chart"></div>
                             </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-temperature-chart"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <figure class="col-lg-12">
-                        <iframe id="showvideo" width="620" height="430"
-                                src="https://player.bilibili.com/player.html?aid=38885840&cid=68344669&page=1"
-                                allowfullscreen="allowfullscreen"></iframe>
+                        {% if room.room_num == '01' %}
+                            <iframe
+                                    src="https://open.ys7.com/ezopen/h5/iframe?url=ezopen://open.ys7.com/D59183521/4.live&autoplay=1&audio=1&accessToken={{ access_token }}"
+                                    width="600"
+                                    height="400"
+                                    id="ysopen"
+                                    allowfullscreen
+                            >
+                            </iframe>
+                        {% else %}
+                            <iframe
+                                    src="https://open.ys7.com/ezopen/h5/iframe?url=ezopen://open.ys7.com/D59183521/5.live&autoplay=1&audio=1&accessToken={{ access_token }}"
+                                    width="600"
+                                    height="400"
+                                    id="ysopen"
+                                    allowfullscreen
+                            >
+                            </iframe>
+                        {% endif %}
                     </figure>
                 </div>
                 <div class="col-lg-4">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>二氧化碳</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                    <div class="tabs-container white-bg">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active" data-toggle="tab"> 二氧化碳</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active">
+                                <div id="morris-co2-chart"></div>
                             </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-co2-chart"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5>空气湿度</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                    <div class="tabs-container white-bg">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active" data-toggle="tab"> 空气湿度</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active">
+                                <div id="morris-humidity-chart"></div>
                             </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-humidity-chart"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>天气情况</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-area-chart1"></div>
-                        </div>
-                    </div>
+                    <figure class="col-lg-12">
+                        {% if room.room_num == '01' %}
+                            <iframe
+                                    src="https://open.ys7.com/ezopen/h5/iframe?url=ezopen://open.ys7.com/D59183521/3.live&autoplay=1&audio=1&accessToken={{ access_token }}"
+                                    width="600"
+                                    height="400"
+                                    id="ysopen"
+                                    allowfullscreen
+                            >
+                            </iframe>
+                        {% else %}
+                            <iframe
+                                    src="https://open.ys7.com/ezopen/h5/iframe?url=ezopen://open.ys7.com/D59183521/2.live&autoplay=1&audio=1&accessToken={{ access_token }}"
+                                    width="600"
+                                    height="400"
+                                    id="ysopen1"
+                                    allowfullscreen
+                            >
+                            </iframe>
+                        {% endif %}
+                    </figure>
                 </div>
+
                 <div class="col-lg-4">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>天气情况</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                    <div class="tabs-container white-bg">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li><a class="nav-link active" data-toggle="tab"> 天气</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active">
+                                <div id="morris-area-chart"></div>
                             </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div id="morris-area-chart2"></div>
                         </div>
                     </div>
                 </div>
@@ -360,9 +329,16 @@
 
 {% block script %}
     <script>
+        function func(value) {
+            if (value != ''){
+                $('#select_form').submit();
+            }
+        }
 
-        function func(){
-            $('#select_form').submit();
+        function func2(value) {
+            if (value != ''){
+                $('#select_form2').submit()
+            }
         }
 
         $(function () {
@@ -423,9 +399,8 @@
                 units: '%',
             });
 
-
             Morris.Line({
-                element: 'morris-area-chart1',
+                element: 'morris-area-chart',
                 data: [
                     {time: '2019-11-17 10:54:01', value: 21.0},
                     {time: '2019-11-17 11:09:01', value: 22.5},
@@ -442,31 +417,7 @@
                 ykeys: ['value'],
                 resize: true,
                 lineWidth: 4,
-                labels: ['温度'],
-                lineColors: ['#1ab394'],
-                pointSize: 5,
-                units: '℃',
-            });
-
-            Morris.Line({
-                element: 'morris-area-chart2',
-                data: [
-                    {time: '2019-11-17 10:54:01', value: 21.0},
-                    {time: '2019-11-17 11:09:01', value: 22.5},
-                    {time: '2019-11-17 11:24:01', value: 21.3},
-                    {time: '2019-11-17 11:39:01', value: 22.8},
-                    {time: '2019-11-17 11:50:01', value: 21.8},
-                    {time: '2019-11-17 12:05:01', value: 21.7},
-                    {time: '2019-11-17 12:17:01', value: 21.0},
-                    {time: '2019-11-17 12:29:01', value: 22.6},
-                    {time: '2019-11-17 12:42:01', value: 22.0},
-                    {time: '2019-11-17 13:00:01', value: 21.6}
-                ],
-                xkey: 'time',
-                ykeys: ['value'],
-                resize: true,
-                lineWidth: 4,
-                labels: ['温度'],
+                labels: ['天气'],
                 lineColors: ['#1ab394'],
                 pointSize: 5,
                 units: '℃',
@@ -506,11 +457,8 @@
             });
         });
 
-    </script>
-
-    <script>
-        $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
-            $('body').hasClass('fullscreen-video') ? $('body').removeClass('fullscreen-video') : $('body').addClass('fullscreen-video')
+        $(document).ready(function() {
+            $('.footable').footable();
         });
     </script>
 

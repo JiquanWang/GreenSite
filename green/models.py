@@ -179,8 +179,8 @@ class SensorInfo(models.Model):
     def sensor_type(self):
         return SensorType.objects.get(id=self.sensor_type_id)
 
-    def get_last_data(self):
-        return DataRecord.objects.filter(sensor_num=self.sensor_num).last()
+    def get_data(self):
+        return DataRecord.objects.filter(sensor_num=self.sensor_num).order_by('-id')[:10]
 
     def created_datetime(self):
         return datetime.datetime.fromtimestamp(self.created_time).strftime("%Y-%m-%d %H:%M:%S")
