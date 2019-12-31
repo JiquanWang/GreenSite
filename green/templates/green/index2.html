@@ -14,14 +14,10 @@
                         <div class="form-group col-8">
                             <select class="form-control col-10" required name="room_num" id="top-search"
                                     onchange="func(this.value)">
-                                <option value="">请选择</option>
-                                <option value="01" {% if active_submenu == "水培温室" %}
-                                        selected="selected"
-                                {% endif %}>水培温室
+                                <option value="" selected="selected">请选择</option>
+                                <option value="01">水培温室
                                 </option>
-                                <option value="02" {% if active_submenu == "基质培温室" %}
-                                        selected="selected"
-                                {% endif %}>基质培温室
+                                <option value="02">基质培温室
                                 </option>
                             </select>
                         </div>
@@ -36,7 +32,7 @@
                                 {% for shelf in shelves_list %}
                                     <option {% if active_shelf_id == shelf.id %}
                                         selected="selected"
-                                    {% endif %}value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>
+                                    {% endif %}value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ shelf.belongto_room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>
                                 {% endfor %}
                             </select>
                         </div>

@@ -34,7 +34,7 @@
                                     onchange="func2(this.value)">
                                 <option value="">请选择</option>
                                 {% for shelf in shelves_list %}
-                                    <option value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>
+                                    <option value="{{ shelf.id }}">{{ room.city }}{{ room.area }}-{{ shelf.belongto_room.room_name }}{{ shelf.name }}({{ shelf.sensors_count }},{{ shelf.relays_count }})</option>
                                 {% endfor %}
                             </select>
                         </div>

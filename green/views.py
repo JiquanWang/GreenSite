@@ -29,7 +29,8 @@ def index(request):
                 data_record_co2 = DataRecord.objects.filter(sensor_num=sensor_co2.sensor_num).order_by('-id')[:10]
                 data_record_co2_latest = data_record_co2[0]
                 # 花架传感器
-                shelves_list = FlowerShelf.objects.filter(room_id=room.id)
+                shelves_list = FlowerShelf.objects.all()
+                # print(shelves_list)
 
             except Exception as e:
                 print(e)
@@ -62,7 +63,8 @@ def index(request):
                 data_record_humidity_latest = data_record_humidity[0]
                 data_record_co2 = DataRecord.objects.filter(sensor_num=sensor_co2.sensor_num).order_by('-id')[:10]
                 data_record_co2_latest = data_record_co2[0]
-                shelves_list = FlowerShelf.objects.filter(room_id=room.id)
+                shelves_list = FlowerShelf.objects.all()
+                # print(shelves_list)
             except Exception as e:
                 print(e)
             active_submenu = ""
@@ -95,7 +97,7 @@ def index2(request):
             try:
                 shelf = FlowerShelf.objects.get(id=shelf_id)
                 room = RoomInfo.objects.get(id=shelf.room_id)
-                shelves_list = FlowerShelf.objects.filter(room_id=shelf.room_id)
+                shelves_list = FlowerShelf.objects.all()
                 sensors_list = SensorInfo.objects.filter(belongto_type=1, belongto_id=shelf.id)
                 soil_temperature_sensor = None
                 light_sensor = None
