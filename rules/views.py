@@ -29,9 +29,10 @@ def add_new_rule(request):
             name = request.POST.get('name')
             comment = request.POST.get('comment')
             status = request.POST.get('status')
-            content = request.POST.get('content')
+            condition = request.POST.get('condition')
+            performance = request.POST.get('performance')
             try:
-                rule = Rules(name=name, comment=comment, status=status, content=content, created_time=int(time.time()))
+                rule = Rules(name=name, comment=comment, status=status, condition=condition, performance=performance, created_time=int(time.time()))
                 rule.save()
             except Exception as e:
                 print(e)
@@ -54,7 +55,8 @@ def modify_the_rule(request, rule_id):
                 rule.name = request.POST.get('name')
                 rule.comment = request.POST.get('comment')
                 rule.status = request.POST.get('status')
-                rule.content = request.POST.get('content')
+                rule.condition = request.POST.get('condition')
+                rule.performance = request.POST.get('performance')
                 rule.save()
             except Exception as e:
                 print(e)

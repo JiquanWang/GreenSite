@@ -107,7 +107,8 @@ class QuanXian(models.Model):
 
 class Rules(models.Model):
     name = models.CharField(max_length=16)
-    content = models.TextField()
+    condition = models.TextField()
+    performance = models.TextField()
     comment = models.CharField(max_length=64, blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
     created_time = models.IntegerField(blank=True, null=True)
