@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect,Http404,HttpResponse
 from django.urls import reverse, reverse_lazy
 from green.models import Rules
+from .utils import rules_set
 import time
 # Create your views here.
 
@@ -34,6 +35,7 @@ def add_new_rule(request):
             try:
                 rule = Rules(name=name, comment=comment, status=status, condition=condition, performance=performance, created_time=int(time.time()))
                 rule.save()
+                rules_set()
             except Exception as e:
                 print(e)
             return HttpResponseRedirect(reverse('rules:get_rules_list'))
@@ -58,6 +60,7 @@ def modify_the_rule(request, rule_id):
                 rule.condition = request.POST.get('condition')
                 rule.performance = request.POST.get('performance')
                 rule.save()
+                rules_set()
             except Exception as e:
                 print(e)
             return HttpResponseRedirect(reverse('rules:get_rules_list'))
@@ -68,6 +71,7 @@ def delete_the_rule(request, rule_id):
         try:
             rule = Rules.objects.get(id=rule_id)
             rule.delete()
+            rules_set()
         except Exception as e:
             print(e)
         return HttpResponseRedirect(reverse('rules:get_rules_list'))
@@ -82,6 +86,7 @@ def adapt_the_rule(request, rule_id):
             elif rule.status == 10:
                 rule.status = -10
             rule.save()
+            rules_set()
         except Exception as e:
             print(e)
         return HttpResponseRedirect(reverse('rules:get_rules_list'))

@@ -1,0 +1,8 @@
+from durable.lang import *
+
+{% for rule in rules_list %}
+with ruleset('{{ rule.name|safe }}'):
+    @when_all({{ rule.condition|safe }})
+    def execute(c):
+        {{ rule.performance|safe }}
+{% endfor %}
